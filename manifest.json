@@ -1,0 +1,20 @@
+{
+  "id": "./index.html",
+  "name": "ODDZA — Professional Football Predictions",
+  "short_name": "ODDZA",
+  "description": "Daily free and VIP football predictions with live results, win-rate tracking, and match history.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#15181c",
+  "theme_color": "#15181c",
+  "lang": "en",
+  "categories": ["sports"],
+  "prefer_related_applications": false,
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
