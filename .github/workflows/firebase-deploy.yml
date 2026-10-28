@@ -1,44 +1,51 @@
 name: Deploy ODDZA Website to Firebase
-on: push: branches: - main paths: - 'index.html' - 'version.json' - 'firebase.json' - '404.html' - 'manifest.json' - 'robots.txt' - 'sitemap.xml' - 'onesignal/' - 'assets/' - 'images/**' - '.github/workflows/firebase-deploy.yml' workflow_dispatch:
-permissions: contents: read
-concurrency: group: oddza-firebase-hosting-deploy cancel-in-progress: false
-jobs: deploy: name: Deploy ODDZA website runs-on: ubuntu-latest
+
+'on':
+push:
+branches:
+- main
+workflow_dispatch:
+
+permissions:
+contents: read
+
+concurrency:
+group: oddza-firebase-hosting-deploy
+cancel-in-progress: false
+
+jobs:
+deploy:
+name: Deploy ODDZA website
+runs-on: ubuntu-latest
+
 steps:
-  - name: Checkout ODDZA website
+  - name: Checkout website repository
     uses: actions/checkout@v4
 
-  - name: Verify required files
+  - name: Check required files
     run: |
-      set -euo pipefail
-      test -f firebase.json || { echo "ERROR: firebase.json is missing"; exit 1; }
-      test -f index.html || { echo "ERROR: index.html is missing"; exit 1; }
+      set -eu
+      test -f firebase.json
+      test -f index.html
       node -e "JSON.parse(require('fs').readFileSync('firebase.json','utf8')); console.log('firebase.json is valid JSON')"
 
-  - name: Authenticate Firebase
+  - name: Set up Firebase authentication
     env:
       FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
     run: |
-      set -euo pipefail
+      set -eu
       if [ -z "$FIREBASE_SERVICE_ACCOUNT" ]; then
-        echo "ERROR: FIREBASE_SERVICE_ACCOUNT secret is missing."
+        echo "FIREBASE_SERVICE_ACCOUNT secret is missing."
         exit 1
       fi
-
       printf '%s' "$FIREBASE_SERVICE_ACCOUNT" > "$RUNNER_TEMP/firebase-service-account.json"
       echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/firebase-service-account.json" >> "$GITHUB_ENV"
 
   - name: Install Firebase CLI
     run: npm install --global firebase-tools
 
-  - name: Deploy only to ODDZA Hosting
-    run: |
-      set -euo pipefail
-      firebase deploy \
-        --only hosting:oddzatips \
-        --project bm-surescore \
-        --non-interactive
+  - name: Deploy ODDZA Hosting only
+    run: firebase deploy --only hosting:oddzatips --project bm-surescore --non-interactive
 
-  - name: Report deployment
-    run: |
-      echo "Firebase Hosting deployment completed successfully."
-      echo "Website: https://oddzatips.web.app/"
+  - name: Confirm deployment
+    run: echo "Deployment completed: https://oddzatips.web.app/"
