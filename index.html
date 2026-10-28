@@ -230,8 +230,8 @@
     await OneSignal.init({
       appId: "d315709b-1d35-46f9-8be7-9f4d5c01a4c4",
       safari_web_id: "web.onesignal.auto.6b1e0125-c07a-4d4d-8123-db80df1063df",
-      serviceWorkerPath: "/ODDZA/onesignal/OneSignalSDKWorker.js",
-      serviceWorkerParam: { scope: "/ODDZA/onesignal/" },
+      serviceWorkerPath: "/onesignal/OneSignalSDKWorker.js",
+      serviceWorkerParam: { scope: "/onesignal/" },
       notifyButton: { enable: false }
     });
     maybeShowPushBanner();
@@ -393,7 +393,7 @@
     <div class="push-banner-title" data-i18n="apk_banner_title">Get the Android app</div>
     <div class="push-banner-sub" data-i18n="apk_banner_sub">Faster, with instant notifications</div>
   </div>
-  <a class="push-banner-cta" href="ODDZA.apk" download data-i18n="apk_banner_cta" onclick="apkBannerDone()">Download</a>
+  <a class="push-banner-cta" href="https://github.com/oddza-dev/ODDZA/releases/latest/download/ODDZA.apk" download data-i18n="apk_banner_cta" onclick="apkBannerDone()">Download</a>
   <button type="button" class="push-banner-close" aria-label="Close" onclick="apkBannerDismiss(event)">
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
   </button>
@@ -408,7 +408,7 @@
   var banner=document.getElementById("apkBanner");
   var menuBtn=document.getElementById("catMenuApk");
   if(menuBtn) menuBtn.style.display="block";
-  window.downloadApk=function(){ var a=document.createElement("a"); a.href="ODDZA.apk"; a.download=""; document.body.appendChild(a); a.click(); a.remove(); };
+  window.downloadApk=function(){ var a=document.createElement("a"); a.href="https://github.com/oddza-dev/ODDZA/releases/latest/download/ODDZA.apk"; a.download=""; document.body.appendChild(a); a.click(); a.remove(); };
   function snoozeUntil(){ return parseInt(localStorage.getItem("apkBannerSnoozeUntil")||"0",10); }
   function hide(){ banner.classList.remove("is-visible"); }
   window.apkBannerDismiss=function(e){
