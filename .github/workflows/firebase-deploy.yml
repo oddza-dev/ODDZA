@@ -48,4 +48,5 @@ jobs:
         run: firebase deploy --only hosting:oddzatips --project bm-surescore --non-interactive
 
       - name: Confirm deployment
-        run: echo "Deployment completed: https://oddzatips.web.app/"
+        run: |
+          echo "Deployment completed - https://oddzatips.web.app/"
