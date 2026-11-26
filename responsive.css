@@ -1,0 +1,330 @@
+/* ODDZA — responsive layer. Loaded after android-ui.css.
+   Phone = the app layout from the screenshots. Tablet / desktop = the same screens in a centred column,
+   packages in two columns. Fonts no longer depend on the device's system font. */
+
+:root {
+  --font-ui: "Inter", Roboto, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Roboto Mono", Menlo, Consolas, monospace;
+  --col: 100%;
+  --ok: #3ddc97;
+  --pad-x: clamp(14px, 4.2vw, 22px);
+}
+@media (min-width: 700px)  { :root { --col: 720px; } }
+@media (min-width: 1100px) { :root { --col: 880px; } }
+@media (prefers-color-scheme: light) { :root { --ok: #0f7a4d; } }
+
+/* ---------- text ---------- */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { font-family: var(--font-ui); text-rendering: optimizeLegibility; letter-spacing: -.005em; line-height: 1.4; }
+button, input, select, textarea { font-family: inherit; }
+p, .pk-t small, .vp-sub, .ck-line, .pk-head p { text-wrap: pretty; overflow-wrap: break-word; }
+h1, h2, h3, .pk-t b { text-wrap: balance; }
+.bc-code, .pk-until, .ti-until, .vp-price, .hist-pager, .ck-phone { font-variant-numeric: tabular-nums; }
+
+/* ---------- centred column on wide screens ---------- */
+html body .page-wrap, html body #freeSection .page-wrap, html body #vipSection .page-wrap, html body #historySection .page-wrap, html body #homeSection .hm-wrap { max-width: var(--col) !important; padding-left: var(--pad-x); padding-right: var(--pad-x); }
+html body .topbar { padding-left: max(14px, calc((100% - var(--col)) / 2 + var(--pad-x) - 8px)) !important; padding-right: max(14px, calc((100% - var(--col)) / 2 + var(--pad-x) - 8px)) !important; }
+.cat-head { padding-left: max(8px, calc((100% - var(--col)) / 2)); padding-right: max(8px, calc((100% - var(--col)) / 2)); }
+.ck-head { padding-left: 8px; padding-right: 8px; }
+@media (min-width: 700px) {
+  .cat-tabs { justify-content: center; }
+  .cat-tab { flex: 0 1 360px; }
+  .ac-body { max-width: 600px; }
+}
+@media (min-width: 1100px) { .ac-body { max-width: 680px; } }
+
+/* ---------- VIP package list ---------- */
+#homeSection .hm-tile.pk-card { position: relative; }
+#homeSection .hm-tile.pk-card .pk-t b { line-height: 1.25; }
+.pk-card.is-open { flex-direction: column !important; align-items: flex-start !important; justify-content: center !important; border-color: var(--accent) !important; }
+.pk-card.is-open .pk-ico { display: none; }
+.pk-card.is-open .pk-t { width: 100%; }
+.pk-card.is-open .pk-t b { padding-right: 104px; }
+.pk-badge { position: absolute; top: 16px; right: 18px; padding: 6px 14px; border-radius: 12px; font-size: 14px; font-weight: 700; letter-spacing: .02em; line-height: 1.2; color: var(--ok); background: color-mix(in srgb, var(--ok) 20%, var(--surface-2)); }
+.pk-until { margin-top: 4px; font-size: 16px; font-weight: 600; line-height: 1.3; color: var(--accent-text, var(--accent)); }
+.pk-until[hidden] { display: none; }
+
+@media (min-width: 760px) {
+  #homeSection .hm-grid#hmGridVip { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 16px; }
+  #homeSection .hm-grid#hmGridVip .pk-head { grid-column: 1 / -1; }
+  #homeSection .hm-grid#hmGridFree { grid-template-columns: minmax(0, 1fr) !important; }
+  #homeSection .hm-tile.pk-card { min-height: 112px; }
+  .pk-head h2 { font-size: 30px; }
+  .pk-head p { font-size: 17px; }
+}
+@media (hover: hover) {
+  #homeSection .hm-tile.pk-card:hover { background: var(--surface-3) !important; border-color: color-mix(in srgb, var(--accent) 50%, var(--line)); cursor: pointer; }
+  .ac-btn:hover, .ac-row:hover { background: var(--surface-3); }
+}
+
+/* ---------- active package page: ACTIVE pill + "Until date", booking-code card ---------- */
+.tier-info { background: none; border: 0; border-radius: 0; padding: 0; margin: 14px 0 0; gap: 20px; }
+.ti-status { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.ti-pill { padding: 6px 14px; border-radius: 12px; font-size: 14px; font-weight: 700; letter-spacing: .02em; line-height: 1.2; color: var(--ok); background: color-mix(in srgb, var(--ok) 20%, var(--surface-2)); }
+.ti-until { font-size: 17px; font-weight: 500; color: var(--slate); }
+.tier-info .vip-countdown-live { display: none !important; }
+
+.tier-info > .ti-codes, .tier-info > .ti-codes:first-child { display: flex; flex-direction: column; flex-wrap: nowrap; gap: 0; padding: 16px 18px 8px; border: 1px solid var(--line); border-radius: 24px; background: var(--surface-2); }
+.ti-codes::before { content: "BOOKING CODES"; margin: 0 0 6px; font-size: 14px; font-weight: 600; letter-spacing: .03em; color: var(--slate); }
+.ti-codes .booking-code-item, .ti-codes .booking-code-item.betpawa, .ti-codes .booking-code-item.sportybet {
+  position: relative; display: flex; align-items: center; justify-content: flex-start; gap: 18px; flex: none; width: 100%; min-height: 56px;
+  padding: 10px 44px 10px 0; margin: 0; border: 0; border-radius: 0; background: none; box-shadow: none; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.ti-codes .booking-code-item + .booking-code-item { border-top: 1px solid var(--line); }
+.ti-codes .booking-code-item .bc-platform, .ti-codes .booking-code-item.betpawa .bc-platform, .ti-codes .booking-code-item.sportybet .bc-platform { flex: 0 0 min(34%, 130px); font-family: var(--font-ui); font-size: 16px; font-weight: 600; letter-spacing: 0; text-transform: uppercase; color: var(--slate); }
+.ti-codes .booking-code-item .bc-code { flex: 1 1 auto; min-width: 0; font-family: var(--font-ui); font-size: clamp(19px, 5.4vw, 24px); font-weight: 700; letter-spacing: .02em; color: var(--accent-text, var(--accent)); overflow-wrap: anywhere; }
+.ti-codes .booking-code-item::after { content: ""; position: absolute; right: 2px; top: 50%; width: 26px; height: 26px; margin-top: -13px; background: var(--slate); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z'/%3E%3C/svg%3E") center/contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z'/%3E%3C/svg%3E") center/contain no-repeat; }
+@media (hover: hover) { .ti-codes .booking-code-item:hover::after { background: var(--accent); } }
+
+/* ---------- history pager ---------- */
+.hist-pager { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.hist-pager-btn { min-height: 48px; }
+
+/* ---------- plan + checkout on wide screens ---------- */
+@media (min-width: 700px) {
+  #vipSection .tier-panel.is-locked .vp { max-width: 600px; margin-left: auto; margin-right: auto; width: 100%; }
+}
+
+/* ---------- small phones ---------- */
+@media (max-width: 360px) {
+  .pk-t b { font-size: 19px !important; }
+  .pk-t small { font-size: 14px !important; }
+  .pk-badge, .ti-pill { padding: 4px 10px; font-size: 12px; }
+  .pk-badge { top: 14px; right: 14px; }
+  .pk-card.is-open .pk-t b { padding-right: 84px; }
+  .pk-until, .ti-until { font-size: 15px; }
+  .ti-codes .booking-code-item { gap: 12px; }
+  .ti-codes .booking-code-item .bc-platform { font-size: 14px; flex-basis: 30%; }
+}
+
+/* ---------- short landscape screens ---------- */
+@media (max-height: 480px) and (orientation: landscape) {
+  #homeSection .hm-tile.pk-card { min-height: 76px; padding-top: 12px; padding-bottom: 12px; }
+  #vipSection .tier-panel.is-locked .vp { min-height: 0; }
+}
+
+/* ---------- accessibility ---------- */
+:where(button, [role="button"], a, .plan-card, .booking-code-item):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+
+/* ======================================================================
+   History screen (chips, 30-day result, date row, page counter) + Today / History bar
+   ====================================================================== */
+body.in-cat[data-view="history"] .topbar { display: flex !important; position: relative !important; }
+body.in-cat[data-view="history"] .cat-head { display: none !important; }
+
+.hist-chips { display: flex; gap: 12px; overflow-x: auto; padding: 6px 0 12px; margin: 0; position: sticky; top: 0; z-index: 5; background: var(--bg); scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.hist-chips::-webkit-scrollbar { display: none; }
+.hist-chip { flex: none; height: 46px; padding: 0 20px; border-radius: 16px; border: 1px solid var(--line); background: var(--surface-2); color: var(--slate); font: 600 17px var(--font-ui); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.hist-chip.is-on { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+@media (hover: hover) { .hist-chip:not(.is-on):hover { background: var(--surface-3); } }
+
+.hist-summary { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px 14px; padding: 16px 20px; margin: 4px 0 4px; border: 1px solid var(--line); border-radius: 22px; background: var(--surface-2); font-size: 17px; color: var(--slate); }
+.hist-summary b { font-weight: 600; color: var(--ok); }
+.hist-summary i { font-style: normal; }
+
+#historySection .date-group { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin: 22px 0 12px; padding: 0; border: 0; background: none; box-shadow: none; text-align: left; font-family: var(--font-ui); font-size: clamp(20px, 5.4vw, 24px); font-weight: 700; letter-spacing: 0; text-transform: none; color: var(--accent-text, var(--accent)); }
+#historySection .date-group::after { display: none; }
+#historySection .date-group .dg-count { font-size: 16px; font-weight: 500; color: var(--slate); }
+
+.hist-pager { margin-top: 22px; }
+.hist-pager-btn { min-height: 54px; padding: 0 26px; font-size: 18px; }
+.hist-page-of { text-align: center; margin: 14px 0 6px; color: var(--slate); font-size: 16px; }
+
+/* bottom bar: icon over label, on the home screen too */
+body.home-active:not(.locked) .cat-tabs { display: flex !important; position: fixed !important; left: 0; right: 0; bottom: 0; width: auto !important; max-width: none !important; margin: 0 !important; z-index: 500; }
+body.home-active:not(.locked) { padding-bottom: calc(84px + env(safe-area-inset-bottom)) !important; }
+.cat-tabs { border-top: 1px solid var(--line); }
+.cat-tab, body[data-cat="full"] #catTabHist { display: flex !important; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 72px; border-top: 0 !important; text-transform: none; font: 600 15px var(--font-ui); letter-spacing: 0; color: var(--slate); -webkit-tap-highlight-color: transparent; }
+.cat-tab.is-on { color: var(--accent-text, var(--accent)); }
+.cat-tab::before { content: ""; width: 30px; height: 30px; background: currentColor; -webkit-mask: var(--ct-ico) center/contain no-repeat; mask: var(--ct-ico) center/contain no-repeat; }
+#catTabToday { --ct-ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E"); }
+#catTabHist { --ct-ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z'/%3E%3C/svg%3E"); }
+@media (min-width: 700px) { .cat-tab { flex: 0 1 300px; } }
+@media (hover: hover) { .cat-tab:not(.is-on):hover { color: var(--ink); } }
+
+/* ======================================================================
+   Pro polish: fit the screen, no bottom nav inside VIP pages, history shortcut in the header
+   ====================================================================== */
+html, body { max-width: 100%; }
+@supports (overflow-x: clip) { html, body { overflow-x: clip; } }   /* clip, not hidden: no extra scroll container fighting the app layout */
+img, svg, video { max-width: 100%; }
+
+/* inside a VIP package (games, plans, history) there is no Home / History bar */
+body.in-cat:not([data-cat="free"]) .cat-tabs { display: none !important; }
+/* VIP history keeps the back-arrow header (the bottom bar is gone) */
+body.in-cat[data-view="history"]:not([data-cat="free"]) .topbar { display: none !important; }
+body.in-cat[data-view="history"]:not([data-cat="free"]) .cat-head { display: flex !important; }
+body.in-cat:not([data-cat="free"]) { padding-bottom: 0 !important; }
+
+/* history shortcut (clock) only on the VIP games page of an unlocked package */
+.cat-hist-btn { display: none; }
+body.in-cat[data-view="today"]:is([data-cat="elite"], [data-cat="single"], [data-cat="overunder"]) .cat-hist-btn { display: flex; }
+body.in-cat:has(#vipSection:not(.hidden) .tier-panel.is-locked:not(.hidden)) .cat-hist-btn { display: none !important; }
+.cat-head .cat-head-btn svg { width: 26px; height: 26px; }
+
+/* ======================================================================
+   Tablet + computer (600px and wider): same app, but sized for a big screen.
+   Phones are NOT affected (they use the 0.72x layout above).
+   ====================================================================== */
+@media (min-width: 600px) {
+  /* header + home */
+  .tb-title { font-size: 21px; }
+  .topbar .icon-btn, body.home-active .topbar .icon-btn { width: 42px; height: 42px; }
+  .topbar .icon-btn svg { width: 25px; height: 25px; }
+  #homeSection .hm-toggle .hm-toggle-btn { height: 46px; font-size: 16px; border-radius: 16px; }
+  .cat-head { min-height: 58px; }
+  .cat-head-title { font-size: 20px; }
+  .apk-card { padding: 12px 16px; }
+
+  /* package list */
+  .pk-head h2 { font-size: 26px; }
+  .pk-head p { font-size: 16px; }
+  .pk-t b { font-size: 19px; }
+  .pk-t small { font-size: 14px; }
+  #homeSection .hm-tile.pk-card { min-height: 92px; padding: 16px 20px; border-radius: 20px; }
+  .pk-badge { font-size: 13px; padding: 5px 12px; }
+  .pk-until { font-size: 15px; }
+
+  /* plan page */
+  #vipSection .tier-panel.is-locked .vp-sub { font-size: 17px; }
+  #vipSection .tier-panel.is-locked .plan-card { min-height: 60px; border-radius: 20px; padding: 0 20px; }
+  #vipSection .tier-panel.is-locked .vp-name { font-size: 18px; }
+  #vipSection .tier-panel.is-locked .vp-price { font-size: 18px; }
+  #vipSection .tier-panel.is-locked .vp-radio { width: 26px; height: 26px; }
+  #vipSection .tier-panel.is-locked .vp-pay { min-height: 56px; font-size: 18px; border-radius: 18px; }
+  #vipSection .tier-panel.is-locked .vp { min-height: 0; }
+
+  /* payment steps */
+  .ck-sheet { max-width: 600px; margin: 0 auto; }
+  .ck-net { min-height: 84px; border-radius: 20px; }
+  .ck-net-name { font-size: 19px; }
+  .ck-pay { min-height: 56px; font-size: 18px; border-radius: 18px; }
+  .ck-ask { font-size: 19px; }
+  .ck-phone { min-height: 58px; }
+
+  /* account */
+  .ac-name { font-size: 22px; }
+  .ac-mail { font-size: 16px; }
+  .ac-row { min-height: 56px; font-size: 17px; border-radius: 18px; }
+  .ac-btn { min-height: 56px; font-size: 18px; border-radius: 18px; }
+
+  /* history + bottom bar */
+  .hist-chip { height: 42px; font-size: 16px; }
+  .hist-summary { font-size: 16px; padding: 14px 18px; }
+  .cat-tab, body[data-cat="full"] #catTabHist { min-height: 62px; font-size: 14px; }
+  .cat-tab::before { width: 26px; height: 26px; }
+}
+
+/* chat opens as a centred window on tablet / computer instead of stretching over the whole screen */
+@media (min-width: 700px) {
+  html body #chatModal { align-items: center !important; justify-content: center !important; padding: 24px !important; background: rgba(0,0,0,.55) !important; }
+  html body #chatModal .chat-box { width: 100% !important; max-width: 560px !important; height: min(100%, 860px) !important; margin: 0 auto !important; border-radius: 22px !important; overflow: hidden; border: 1px solid var(--line) !important; box-shadow: 0 30px 80px -20px rgba(0,0,0,.7) !important; }
+}
+
+/* big desktop screens: a little more room for the packages and cards */
+@media (min-width: 1100px) {
+  :root { --col: 920px; }
+  .ck-sheet { max-width: 640px; }
+}
+
+/* mouse + keyboard comfort */
+@media (hover: hover) and (pointer: fine) {
+  .plan-card, .ck-net, .hm-toggle-btn, .hist-chip, .cat-tab, .ac-btn, .apk-card-btn { cursor: pointer; transition: background .15s ease, border-color .15s ease, transform .1s ease; }
+  .plan-card:not(.selected):hover, .ck-net:not(.on):hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+}
+
+/* ======================================================================
+   Device polish v102 — login card + popups sized for every screen
+   Phone (<600) · small laptop / landscape tablet (short screens) · tablet · desktop · big monitors
+   ====================================================================== */
+
+/* login card: a bit larger on tablet, comfortable on desktop */
+@media (min-width: 700px) {
+  #authModal .auth-modal-box { max-width: 460px; padding: 44px 40px 24px; }
+  #authModal .auth-logo { width: 96px; height: 96px; border-radius: 26px; }
+  #authModal h2 { font-size: 30px; }
+  #authModal .id-sub { font-size: 16px; }
+}
+@media (min-width: 1200px) {
+  #authModal .auth-modal-box { max-width: 480px; }
+}
+
+/* laptops / landscape tablets: the card must always fit the window height */
+@media (min-width: 600px) and (max-height: 860px) {
+  #authModal { padding-top: 12px; padding-bottom: 12px; }
+  #authModal .auth-modal-box { padding: 24px 32px 14px; }
+  #authModal .auth-logo { width: 68px; height: 68px; border-radius: 18px; margin-bottom: 10px; }
+  #authModal h2 { font-size: 24px; }
+  #authModal .id-sub { margin-bottom: 14px; font-size: 14.5px; }
+  #authModal .auth-field { margin-bottom: 10px; }
+  #authModal { --af-h: 46px; }
+  #authModal #authSubmitBtn { margin-top: 12px; }
+  #authModal .auth-divider { margin: 14px 0; }
+  #authModal .auth-trust { margin-top: 10px; }
+  #authModal .auth-switch-row { margin-top: 8px; }
+  #authModal .auth-link-strong { min-height: 36px; }
+  #authModal .auth-legal { margin-top: 4px; padding-top: 10px; }
+}
+@media (min-width: 600px) and (max-height: 680px) {
+  #authModal .auth-trust { display: none; }
+  #authModal .auth-logo { width: 52px; height: 52px; border-radius: 14px; }
+}
+
+/* very small phones */
+@media (max-width: 360px) {
+  #authModal { padding-left: 10px; padding-right: 10px; }
+  #authModal .auth-modal-box { padding: 24px 16px 14px; border-radius: 20px; }
+  #authModal h2 { font-size: 23px; }
+}
+
+/* generic popups (alerts, confirmations, sheets) on wide screens */
+@media (min-width: 700px) {
+  .popup-box { max-width: 440px; }
+}
+
+/* big monitors: keep the app readable instead of stretching */
+@media (min-width: 1600px) {
+  :root { --col: 1000px; }
+}
+
+/* ==========================================================================
+   v104 — app-like screens: full-screen checkout + full-screen login, real PNG
+   network logos, no pop-up cards, no entrance animations that can stutter.
+   (Last file loaded, so these rules win.)
+   ========================================================================== */
+
+/* ---- mobile-money logos (package page): real PNG images, 4 in a row ---- */
+#vipSection .vp-methods .vp-logos-4 { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; list-style: none !important; margin: 0; padding: 0; }
+#vipSection .vp-methods .vp-logos li.pm-img { list-style: none !important; display: block; margin: 0; padding: 0; background: none; box-shadow: none; border-radius: 10px; overflow: hidden; aspect-ratio: 2 / 1; line-height: 0; }
+#vipSection .vp-methods .vp-logos li.pm-img::marker { content: ""; }
+#vipSection .vp-methods .vp-logos li.pm-img img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+
+/* ---- checkout: one full screen, nothing floating, nothing inset ---- */
+.ck-back { position: fixed; inset: 0; z-index: 30000; background: var(--bg); overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.ck-back.open { display: block; animation: none; }
+.ck-sheet { max-width: none !important; width: 100%; min-height: 100%; margin: 0 !important; padding: 0 !important; background: var(--bg); }
+.ck-step { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; padding-bottom: calc(24px + env(safe-area-inset-bottom)); animation: none !important; }
+.ck-head { position: sticky; top: 0; z-index: 3; margin: 0 0 18px !important; width: 100%; background: var(--surface); }
+.ck-step > :not(.ck-head) { width: auto !important; margin-left: max(18px, calc((100% - 520px) / 2)) !important; margin-right: max(18px, calc((100% - 520px) / 2)) !important; }
+.ck-step > .ck-nets { margin-bottom: auto !important; }       /* the big button rests at the bottom, like a real app */
+.ck-step > .ck-sum-mini { margin-bottom: auto !important; }
+.ck-step > .ck-pay { margin-top: 18px !important; }
+.ck-step > .ck-other { margin-top: 10px !important; }
+.ck-step > .ck-state { margin-top: 0 !important; }
+.ck-net .ck-netimg { flex: none; width: 112px; height: 56px; margin-left: auto; border-radius: 10px; object-fit: cover; display: block; }
+.ck-net { -webkit-tap-highlight-color: transparent; }
+
+/* ---- login / sign-up: a real full screen, not a card in a pop-up ---- */
+#authModal { padding: 0 !important; align-items: stretch !important; background: var(--bg) !important; overflow-y: auto; overscroll-behavior: contain; }
+#authModal .auth-modal-box {
+  max-width: none !important; width: 100%; min-height: 100%; margin: 0 !important;
+  border: 0 !important; border-radius: 0 !important; box-shadow: none !important; background: transparent !important; animation: none !important;
+  padding: calc(36px + env(safe-area-inset-top, 0px)) max(22px, calc((100% - 440px) / 2)) calc(28px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+/* ---- smoother opening: the splash fades out on the GPU, nothing re-layouts under it ---- */
+#splashScreen { transition: opacity .25s ease; will-change: opacity; contain: strict; }
+#splashScreen.hide { will-change: auto; }
+html, body { -webkit-tap-highlight-color: transparent; }
+@media (prefers-reduced-motion: reduce) { #splashScreen .splash-logo { animation: none; } }

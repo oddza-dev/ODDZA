@@ -1,0 +1,212 @@
+/* ODDZA — app-style layout (header, package list, plan page, payment steps, account page).
+   Loaded after every other stylesheet; uses the theme variables so light and dark both work. */
+
+/* ---------- top bar ---------- */
+body.home-active .topbar, .topbar { background: var(--bg) !important; justify-content: space-between; gap: 10px; padding-bottom: 6px; }
+.topbar-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.tb-logo { width: 40px; height: 40px; border-radius: 11px; object-fit: cover; flex: none; }
+.tb-title { font-weight: 800; font-size: clamp(16px, 5.4vw, 23px); letter-spacing: .01em; color: var(--accent-text, var(--accent)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topbar-right { gap: 2px; }
+.topbar .icon-btn, body.home-active .topbar .icon-btn { width: 46px; height: 46px; border: 0; border-radius: 50%; background: transparent !important; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; }
+.topbar .icon-btn svg { width: 28px; height: 28px; color: var(--ink); }
+#chatBtn svg, #accountBtn svg { fill: currentColor; }
+#chatBtn svg, #accountBtn svg { stroke-width: 1.6; }
+#notifBell { display: none !important; }
+#accountBtn.has-notif::after { content: ""; position: absolute; top: 9px; right: 9px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px var(--bg); }
+#homeSection .hm-wrap { padding-top: calc(78px + env(safe-area-inset-top, 0px)); }
+
+/* ---------- Free / VIP switch ---------- */
+.hm-toggle { margin: 4px 0 22px; padding: 0; gap: 10px; }
+.hm-toggle-pill { display: none !important; }
+#homeSection .hm-toggle .hm-toggle-btn { height: 52px; border-radius: 18px; text-transform: none; font-size: 17px; font-weight: 700; letter-spacing: 0; color: var(--slate); background: var(--surface-2) !important; border: 1px solid var(--line); text-shadow: none; }
+#homeSection .hm-toggle .hm-toggle-btn.is-on { background: var(--accent) !important; border-color: var(--accent); color: var(--on-accent); }
+
+/* ---------- package list ---------- */
+#homeSection .hm-grid { grid-template-columns: 1fr !important; gap: 14px; align-content: start; padding-bottom: 28px; }
+.pk-head { margin: 4px 2px 4px; }
+.pk-head h2 { margin: 0 0 6px; font-size: 26px; font-weight: 700; color: var(--ink); letter-spacing: -.01em; }
+.pk-head p { margin: 0; font-size: 16px; color: var(--slate); line-height: 1.4; }
+#homeSection .hm-tile.pk-card { flex-direction: row; align-items: center; justify-content: space-between; gap: 14px; aspect-ratio: auto; width: 100%; height: auto; min-height: 92px; padding: 18px 20px; border-radius: 24px; text-align: left; border: 1px solid var(--line); background: var(--surface-2) !important; color: var(--ink); }
+#homeSection .hm-tile.pk-card:active { background: var(--surface-3) !important; transform: scale(.99); }
+.pk-t { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.pk-t b { font-size: 21px; font-weight: 700; color: var(--ink); letter-spacing: -.005em; }
+.pk-t small { font-size: 15px; line-height: 1.4; color: var(--slate); font-weight: 400; }
+.pk-ico { flex: none; width: 26px; height: 26px; display: grid; place-items: center; color: var(--slate); }
+.pk-ico svg { width: 24px; height: 24px; }
+.pk-card .pk-chev { display: none; }
+.pk-card.is-open .pk-lock { display: none; }
+.pk-card.is-open .pk-chev { display: block; }
+.pk-card.is-open { border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); }
+.pk-card.is-open .pk-ico { color: var(--accent-text, var(--accent)); }
+
+/* ---------- screen header (back arrow + title) ---------- */
+.cat-head { background: var(--surface) !important; color: var(--ink) !important; min-height: 64px; padding-left: 8px; }
+.cat-head-btn { color: var(--ink) !important; width: 48px; height: 48px; }
+.cat-head-title { font: 500 22px var(--font-ui); margin-left: 6px; color: var(--ink); }
+
+/* ---------- locked package = plan page ---------- */
+#vipSection .tier-panel.is-locked > :not(.vp) { display: none !important; }
+#vipSection .tier-panel.is-locked .vp { display: flex !important; flex-direction: column; background: none; border: 0; box-shadow: none; padding: 10px 0 0; margin: 0; min-height: calc(100vh - 150px); }
+#vipSection .tier-panel.is-locked .vp-head { order: 0; display: flex; align-items: center; gap: 14px; margin: 0 0 18px; padding: 0 2px; border: 0; }
+#vipSection .tier-panel.is-locked .vp-head::before { content: ""; flex: none; width: 36px; height: 36px; background: var(--accent); -webkit-mask: var(--pk-lock) center/contain no-repeat; mask: var(--pk-lock) center/contain no-repeat; }
+#vipSection .tier-panel.is-locked .vp-title { display: none; }
+#vipSection .tier-panel.is-locked .vp-sub { margin: 0; font-size: 18px; line-height: 1.4; color: var(--ink); }
+#vipSection .tier-panel.is-locked .vp-perks, #vipSection .tier-panel.is-locked .vp-note, #vipSection .tier-panel.is-locked .vp-help { display: none; }
+:root { --pk-lock: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' d='M6 10V8a6 6 0 1 1 12 0v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1zm2 0h8V8a4 4 0 1 0-8 0z'/%3E%3C/svg%3E"); }
+
+/* mobile-money card */
+#vipSection .tier-panel.is-locked .vp-methods { order: 1; margin: 0 0 24px; padding: 18px 18px 16px; border: 1px solid var(--line); border-radius: 22px; background: var(--surface-2); gap: 0; }
+#vipSection .vp-mm-t { display: block; font-size: 19px; font-weight: 700; color: var(--ink); margin: 0 0 8px; }
+#vipSection .vp-mm-s { margin: 0 0 14px; font-size: 15.5px; line-height: 1.45; color: var(--slate); }
+#vipSection .tier-panel.is-locked .vp-methods .vp-mlabel, #vipSection .tier-panel.is-locked .vp-methods .vp-mgroup + .vp-mgroup { display: none; }
+#vipSection .tier-panel.is-locked .vp-methods .vp-logos { gap: 10px; }
+#vipSection .tier-panel.is-locked .vp-methods .vp-logos li { border-radius: 10px; }
+#vipSection .vp-mm-t, #vipSection .vp-mm-s { display: none; }
+#vipSection .tier-panel.is-locked .vp-mm-t, #vipSection .tier-panel.is-locked .vp-mm-s { display: block; }
+
+/* plans */
+#vipSection .tier-panel.is-locked .vp-label { order: 2; margin: 0 0 12px; font-size: 17px; font-weight: 500; color: var(--slate); }
+#vipSection .tier-panel.is-locked .vp-plans { order: 3; display: flex; flex-direction: column; gap: 12px; margin: 0 0 24px; }
+#vipSection .tier-panel.is-locked .plan-card { display: flex; align-items: center; gap: 16px; min-height: 68px; padding: 0 22px; border-radius: 24px; border: 1.5px solid var(--line); background: var(--surface-2); box-shadow: none; }
+#vipSection .tier-panel.is-locked .plan-card.selected { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--surface-2)); }
+#vipSection .tier-panel.is-locked .vp-radio { flex: none; width: 30px; height: 30px; border-radius: 50%; border: 2.5px solid color-mix(in srgb, var(--ink) 38%, transparent); display: grid; place-items: center; background: none; }
+#vipSection .tier-panel.is-locked .plan-card.selected .vp-radio { border-color: var(--accent); }
+#vipSection .tier-panel.is-locked .plan-card.selected .vp-radio::after { content: ""; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); }
+#vipSection .tier-panel.is-locked .vp-info { flex: 1; min-width: 0; }
+#vipSection .tier-panel.is-locked .vp-name { font-size: 21px; font-weight: 600; text-transform: lowercase; color: var(--ink); }
+#vipSection .tier-panel.is-locked .vp-dur, #vipSection .tier-panel.is-locked .vp-meta, #vipSection .tier-panel.is-locked .vp-perday, #vipSection .tier-panel.is-locked .vp-save, #vipSection .tier-panel.is-locked .vp-flag { display: none !important; }
+#vipSection .tier-panel.is-locked .vp-end { display: block; }
+#vipSection .tier-panel.is-locked .vp-price { font-size: 20px; font-weight: 700; color: var(--accent-text, var(--accent)); font-variant-numeric: tabular-nums; }
+
+/* Continue stays at the bottom of the screen */
+#vipSection .tier-panel.is-locked .vp-pay { order: 4; position: sticky; bottom: calc(14px + env(safe-area-inset-bottom)); margin-top: auto; width: 100%; min-height: 62px; border-radius: 22px; border: 0; background: var(--accent); color: var(--on-accent); font-size: 20px; font-weight: 600; box-shadow: none; }
+#vipSection .tier-panel.is-locked .vp-pay:disabled { background: color-mix(in srgb, var(--accent) 38%, var(--bg)); color: color-mix(in srgb, var(--on-accent) 70%, transparent); opacity: 1; }
+/* the plan page has no Today / History bar and no menu */
+body.in-cat:has(#vipSection:not(.hidden) .tier-panel.is-locked:not(.hidden)) .cat-tabs { display: none !important; }
+body.in-cat:has(#vipSection:not(.hidden) .tier-panel.is-locked:not(.hidden)) .cat-head-btn[aria-label="Menu"] { visibility: hidden; }
+
+/* ---------- payment steps (network, number) ---------- */
+.ck-sheet { padding: 0 18px calc(28px + env(safe-area-inset-bottom)); }
+.ck-head { margin: 0 -18px 18px; padding: calc(8px + env(safe-area-inset-top)) 8px 8px; min-height: 64px; background: var(--surface); }
+.ck-bk { color: var(--ink); padding: 10px; margin: 0; border-radius: 50%; }
+.ck-bk span { display: none; }
+.ck-bk svg { width: 26px; height: 26px; }
+.ck-title { font-size: 22px; font-weight: 500; letter-spacing: 0; margin-left: 8px; }
+.ck-line { margin: 0 2px 18px; font-size: 16px; color: var(--slate); }
+.ck-nets { gap: 12px; }
+.ck-net { min-height: 98px; padding: 0 22px; border-radius: 24px; border: 1.5px solid var(--line); background: var(--surface-2); gap: 16px; }
+.ck-net.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--surface-2)); }
+.ck-radio { flex: 0 0 30px; height: 30px; border-width: 2.5px; }
+.on > .ck-radio::after { width: 14px; height: 14px; }
+.ck-net-name { font-size: 22px; font-weight: 500; }
+.ck-netlogo { flex: none; width: 126px; list-style: none; margin: 0; padding: 0; display: block !important; }
+.ck-sheet .ck-netlogo li { aspect-ratio: 2 / 1; border-radius: 10px; background-size: cover; }
+.ck-pay { min-height: 62px; border-radius: 22px; font-size: 20px; font-weight: 600; }
+.ck-other { display: block; width: 100%; margin: 16px 0 0; padding: 12px; border: 0; background: none; color: var(--slate); font-size: 15px; font-weight: 500; line-height: 1.3; font-family: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.ck-ask { font-size: 21px; font-weight: 400; margin: 6px 2px 22px; }
+.ck-phone { min-height: 66px; border-radius: 999px; padding: 0 26px; background: var(--surface-2); }
+.ck-sum-mini { margin: 0 0 22px; padding: 0 12px; font-size: 16px; }
+.ck-sum-mini b { font-size: 18px; font-weight: 700; }
+.ck-pay:disabled { background: var(--surface-2); color: var(--slate); border: 1px solid var(--line); }
+
+/* ---------- account page ---------- */
+.account-panel { position: fixed !important; inset: 0 !important; top: 0 !important; right: 0 !important; width: auto !important; max-width: none !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; background: var(--bg) !important; z-index: 29000 !important; overflow-y: auto !important; transform: none !important; opacity: 1 !important; pointer-events: none; display: none; transition: none !important; }
+.account-panel.open { display: block; pointer-events: auto; }
+.ac-bar { display: flex; align-items: center; gap: 8px; min-height: 64px; padding: calc(8px + env(safe-area-inset-top)) 8px 8px; background: var(--surface); position: sticky; top: 0; z-index: 2; }
+.ac-back { border: 0; background: none; color: var(--ink); width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; }
+.ac-back svg { width: 26px; height: 26px; }
+.ac-title { font-size: 22px; font-weight: 500; color: var(--ink); margin-left: 4px; }
+.ac-body { max-width: 520px; margin: 0 auto; padding: 18px 18px calc(32px + env(safe-area-inset-bottom)); }
+.ac-card { padding: 20px 22px; border: 1px solid var(--line); border-radius: 24px; background: var(--surface-2); margin: 0 0 26px; }
+.ac-name { font-size: 24px; font-weight: 600; color: var(--ink); overflow-wrap: anywhere; }
+.ac-mail { margin-top: 6px; font-size: 17px; color: var(--slate); overflow-wrap: anywhere; line-height: 1.4; }
+.ac-sec { margin: 0 2px 10px; font-size: 14px; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; color: var(--slate); }
+.ac-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 62px; padding: 0 22px; margin: 0 0 12px; border: 1px solid var(--line); border-radius: 22px; background: var(--surface-2); font-size: 19px; font-weight: 600; color: var(--ink); }
+.ac-row b { font-size: 16px; font-weight: 600; color: var(--accent-text, var(--accent)); }
+.ac-row-none { font-weight: 400; color: var(--slate); font-size: 17px; }
+.ac-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 62px; margin: 0 0 12px; border: 1px solid var(--line); border-radius: 22px; background: var(--surface-2); color: var(--ink); font-size: 20px; font-weight: 500; line-height: 1.2; font-family: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ac-btn:active { background: var(--surface-3); }
+.ac-first { margin-top: 20px; }
+.ac-out { margin-top: 24px; }
+.ac-cta { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 600; }
+.ac-badge { font-style: normal; font-size: 13px; font-weight: 700; min-width: 22px; padding: 2px 7px; border-radius: 999px; background: var(--accent); color: var(--on-accent); }
+.ac-del { display: block; margin: 18px 0 0; text-align: center; font-size: 13.5px; color: var(--slate); text-decoration: underline; text-underline-offset: 3px; opacity: .8; }
+
+/* ======================================================================
+   Chat: Admin Support header, clickable links, APK download cards
+   ====================================================================== */
+#chatModal .chat-header-sub { margin-top: 3px; font: 500 14px/1.3 var(--font-ui); color: var(--accent-text, var(--accent)); letter-spacing: .01em; }
+#chatModal .chat-brand-name { font-size: clamp(16px, 4.8vw, 20px); }
+#chatModal .chat-bubble { overflow-wrap: anywhere; line-height: 1.45; }
+#chatModal .chat-link { color: var(--accent-text, var(--accent)); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; word-break: break-all; -webkit-tap-highlight-color: transparent; }
+#chatModal .chat-msg.user .chat-link { color: inherit; }
+#chatModal .chat-link:active { opacity: .7; }
+
+#chatModal .chat-apk, #chatModal .chat-file-card {
+  display: flex; align-items: center; gap: 12px; width: 100%; min-width: 230px; box-sizing: border-box; margin: 6px 0 2px; padding: 12px;
+  border: 1px solid var(--line); border-radius: 18px; background: var(--surface-2); color: var(--ink); text-decoration: none; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+#chatModal .chat-apk:active, #chatModal .chat-file-card:active { background: var(--surface-3); }
+#chatModal .chat-apk-ico, #chatModal .chat-file-ico {
+  flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px;
+  background: var(--accent); color: var(--on-accent); font: 800 13px var(--font-ui); letter-spacing: .02em;
+}
+#chatModal .chat-apk-meta, #chatModal .chat-file-meta { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+#chatModal .chat-apk-meta b, #chatModal .chat-file-meta b { font: 700 15px/1.25 var(--font-ui); color: var(--ink); overflow-wrap: anywhere; }
+#chatModal .chat-apk-meta small, #chatModal .chat-file-meta small { font: 500 13px/1.3 var(--font-ui); color: var(--slate); }
+#chatModal .chat-apk-btn, #chatModal .chat-file-btn {
+  flex: none; padding: 10px 16px; border-radius: 999px; background: var(--accent); color: var(--on-accent); font: 700 14px var(--font-ui);
+}
+
+/* ======================================================================
+   Android app download card (home page) + banner
+   ====================================================================== */
+.apk-card[hidden] { display: none !important; }
+.apk-card { display: flex; align-items: center; gap: 14px; margin: 2px 0 18px; padding: 14px 16px; border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--line)); border-radius: 22px; background: color-mix(in srgb, var(--accent) 9%, var(--surface-2)); }
+.apk-card-ico { flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; background: var(--accent); color: var(--on-accent); }
+.apk-card-ico svg { width: 24px; height: 24px; }
+.apk-card-t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.apk-card-t b { font-size: 17px; font-weight: 700; color: var(--ink); line-height: 1.25; }
+.apk-card-t small { font-size: 14px; color: var(--slate); line-height: 1.35; }
+.apk-card-btn { flex: none; min-height: 44px; padding: 0 20px; border: 0; border-radius: 999px; background: var(--accent); color: var(--on-accent); font: 700 15px var(--font-ui); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.apk-card-btn:active { transform: scale(.97); }
+#apkBanner { max-width: 520px; padding: 14px 16px; }
+#apkBanner .push-banner-title { font-size: 16px; font-weight: 700; }
+#apkBanner .push-banner-sub { font-size: 13.5px; }
+#apkBanner .push-banner-cta { min-height: 42px; padding: 0 20px; border-radius: 999px; font-weight: 700; }
+@media (max-width: 380px) { .apk-card { flex-wrap: wrap; } .apk-card-btn { width: 100%; } }
+
+/* ======================================================================
+   Pro polish
+   ====================================================================== */
+.vp-pay-amt { margin-left: 2px; font-weight: 700; font-variant-numeric: tabular-nums; }
+#vipSection .tier-panel.is-locked .plan-card { transition: border-color .15s ease, background .15s ease, transform .1s ease; }
+#vipSection .tier-panel.is-locked .plan-card:active { transform: scale(.985); }
+#vipSection .tier-panel.is-locked .plan-card.selected { box-shadow: 0 0 0 1px var(--accent) inset; }
+#vipSection .tier-panel.is-locked .vp, #vipSection .tier-panel.is-locked .vp > * { box-sizing: border-box; max-width: 100%; }
+#vipSection .tier-panel.is-locked .vp-pay { box-shadow: 0 10px 28px -12px color-mix(in srgb, var(--accent) 70%, transparent); }
+#vipSection .tier-panel.is-locked .vp-pay:disabled { box-shadow: none; }
+.cat-head { border-bottom: 1px solid var(--line); }
+#homeSection .hm-tile.pk-card { box-shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 8px 22px -16px rgba(0,0,0,.6); }
+
+/* ======================================================================
+   Home = today's Free matches straight away (like the native app)
+   ====================================================================== */
+body.home-active #hmGridFree .date-heading { display: block !important; margin: 2px 2px 4px; padding: 0; border: 0; background: none; box-shadow: none; text-transform: none; letter-spacing: 0; font: 500 15px var(--font-ui); color: var(--slate); }
+body.home-active #hmGridFree .date-heading::after { display: none; }
+body.home-active #hmGridFree .date-heading:empty { display: none !important; }
+#hmGridFree .panel { background: none; border: 0; box-shadow: none; padding: 0; margin: 0; }
+#hmGridFree #tierInfo_free:empty { display: none; }
+#hmGridFree .tier-info { margin: 0; }
+/* the off-screen side of the Free / VIP slider takes no height, so there is no empty scroll space */
+#homeSection:has(#hmToggle[data-mode="vip"]) #hmGridFree { max-height: 0; overflow: hidden; transition: max-height 0s .45s; }
+#homeSection:has(#hmToggle[data-mode="free"]) #hmGridVip { max-height: 0; overflow: hidden; transition: max-height 0s .45s; }
+/* date + ACTIVE row visible on VIP package pages */
+body.in-cat:not([data-view="history"]) .sec-date:not(:empty) { display: block; }
+
+/* ======================================================================
+   Banners: never on top of each other, never on top of the Today / History bar
+   ====================================================================== */
+body.home-active:not(.locked) .push-banner, body.in-cat[data-cat="free"] .push-banner { bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
+#apkBanner.is-visible ~ #enablePushBanner.is-visible, #apkBanner.is-visible ~ #enableInstallBannerIOS.is-visible { display: none !important; }
+#apkUpdateBanner.is-visible ~ #apkBanner.is-visible { display: none !important; }
