@@ -1,0 +1,84 @@
+/* ODDZA — UI polish layer. Loaded LAST. CSS only: no logic, data or markup changes.
+   Pass 1: match cards (Home / Free / VIP lists). Uses existing theme variables, so dark and light both work. */
+
+/* ---------- league header: one clean line, long league names get an ellipsis ---------- */
+.league-group .league-header { align-items: center; min-width: 0; }
+.league-group .league-header .lh-time { flex: none; white-space: nowrap; }
+.league-group .league-header .lh-league { flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---------- team names: break at spaces first, hyphenate only a single word that cannot fit; max 3 lines ---------- */
+.league-group .match-team .tname {
+  overflow-wrap: break-word; word-break: normal; hyphens: auto; -webkit-hyphens: auto;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden;
+  line-height: 1.25;
+}
+.league-group .match-single-name { overflow-wrap: break-word; hyphens: none; line-height: 1.3; }
+
+/* ---------- more room for names on narrow phones ---------- */
+@media (max-width: 420px) {
+  .league-group .match-teams { gap: 6px; }
+  .league-group .match-team.has-logo { gap: 6px; font-size: clamp(12.5px, 3.5vw, 14.5px); }
+  .league-group .match-score { font-size: clamp(17px, 5vw, 24px); padding: 0 2px; }
+  .tcrest { width: 32px; height: 32px; }
+  .tcrest.no-img .tfb { font-size: 11px; }
+  .league-group .match-body, .league-group .match-card.is-locked .match-body { padding: 8px 12px 14px; }
+}
+
+/* ---------- tip bar: aligned odds, readable tip text ---------- */
+.league-group .tip-label { line-height: 1.3; overflow-wrap: break-word; }
+.league-group .match-tip-bar .odd-badge { flex: none; min-width: 56px; text-align: center; font-variant-numeric: tabular-nums; }
+.league-group .match-score { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* very small phones (320-340px): smaller type and crest so names stay readable */
+@media (max-width: 340px) {
+  .league-group .match-team.has-logo { font-size: 12px; gap: 5px; }
+  .league-group .match-score { font-size: 16px; }
+  .tcrest { width: 28px; height: 28px; }
+  .league-group .match-body, .league-group .match-card.is-locked .match-body { padding: 8px 10px 12px; }
+}
+
+/* ---------- History chips (Free / Elite / Single / Daily 10+): on narrow unscaled screens they share the row; scroll only if truly too narrow ---------- */
+@media (max-width: 430px) {
+  .hist-chips { gap: 8px; padding-left: 2px; padding-right: 2px; }
+  .hist-chip { flex: 1 0 auto; padding: 0 clamp(10px, 3.2vw, 18px); font-size: clamp(14px, 4vw, 16px); white-space: nowrap; }
+}
+
+/* =====================================================================
+   Compact phone sizing (<= 430px): everything was a little oversized, so type, heights and
+   padding come down ~10-15%. Layout, colours and behaviour are unchanged.
+   ===================================================================== */
+@media (max-width: 430px) {
+  /* top bar */
+  .tb-logo { width: 34px; height: 34px; border-radius: 10px; }
+  .tb-title { font-size: clamp(15px, 4.8vw, 19px); }
+  .topbar .icon-btn, body.home-active .topbar .icon-btn { width: 40px; height: 40px; }
+  .topbar .icon-btn svg { width: 24px; height: 24px; }
+  #homeSection .hm-wrap { padding-top: calc(66px + env(safe-area-inset-top, 0px)); }
+
+  /* home: Free / VIP switch and package list */
+  .hm-toggle { margin: 2px 0 16px; gap: 8px; }
+  #homeSection .hm-toggle .hm-toggle-btn { height: 44px; border-radius: 14px; font-size: 15px; }
+  #homeSection .hm-grid { gap: 10px; padding-bottom: 20px; }
+  .pk-head h2 { font-size: 22px; margin-bottom: 4px; }
+  .pk-head p { font-size: 14px; }
+  #homeSection .hm-tile.pk-card { min-height: 76px; padding: 14px 16px; border-radius: 18px; }
+
+  /* history: chips, summary, date heading */
+  .hist-chip { height: 38px; }
+  .hist-summary { font-size: 14px; padding: 11px 14px; border-radius: 16px; gap: 4px 12px; }
+  #historySection .date-group { margin: 16px 0 8px; font-size: 18px; }
+  #historySection .date-group .dg-count { font-size: 14px; }
+
+  /* match cards */
+  .league-group .lh-time, .league-group .lh-league { font-size: 13px; }
+  .league-group .match-team.has-logo { font-size: clamp(12.5px, 3.6vw, 14px); }
+  .league-group .match-score { font-size: clamp(17px, 5.2vw, 22px); }
+  .league-group .tip-label, .league-group .tip-label.free, .league-group .tip-label.vip-lock { font-size: 14px; }
+  .league-group .match-tip-bar { padding: 8px 10px 8px 14px; }
+  .league-group .match-tip-bar .odd-badge { min-width: 50px; font-size: 15px; padding: 6px 10px; border-radius: 10px; }
+
+  /* bottom bar (Today / History) */
+  body.home-active:not(.locked) { padding-bottom: calc(68px + env(safe-area-inset-bottom)) !important; }
+  .cat-tab, body[data-cat="full"] #catTabHist { min-height: 58px; font-size: 13px; gap: 2px; }
+  .cat-tab::before { width: 24px; height: 24px; }
+}
