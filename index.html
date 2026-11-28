@@ -6,24 +6,39 @@
 <script>
 // Catch the browser's install event as early as possible (it can fire before app.js runs).
 window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();window.__pwaPrompt=e;window.dispatchEvent(new Event("pwa-ready"));});
-// Phones in a normal browser: same compact size as the native app (0.72x), fixed so it always fills the screen width.
+// Phones in a normal browser: same compact size as the native app (0.80x), fixed so it always fills the screen width.
 (function(){try{
   var ua=navigator.userAgent||"", w=Math.min(screen.width,screen.height);
   if(/; wv\)/.test(ua) && !window.AndroidBridge) return;   // other WebViews stay untouched; our own app (AndroidBridge) now gets the same 0.72x as Chrome
   if(/Android|iPhone|iPod/i.test(ua) && w<600 && window.innerWidth<500){
-    var W=Math.round(w/0.72), S=(w/W).toFixed(4);   // layout width + the exact scale that fits it: Chrome can no longer zoom out and leave a gap
+    // Keep the page invisible (on its dark background) until the new viewport has been applied, so the user never sees the resize / side gaps.
+    var de=document.documentElement; de.classList.add("vp-wait");
+    var reveal=function(){ de.classList.remove("vp-wait"); };
+    document.addEventListener("DOMContentLoaded",function(){ requestAnimationFrame(function(){ requestAnimationFrame(reveal); }); });
+    setTimeout(reveal,600);   // safety: never stay hidden
+    var W=Math.round(w/0.80), S=(w/W).toFixed(4);   // layout width + the exact scale that fits it: Chrome can no longer zoom out and leave a gap
     document.querySelector('meta[name="viewport"]').setAttribute("content","width="+W+", initial-scale="+S+", minimum-scale="+S+", maximum-scale="+S+", user-scalable=no, viewport-fit=cover");
   }
 }catch(e){}})();
 </script>
 <meta name="color-scheme" content="dark light">
+<style>
+  /* Solid page background from the very first frame: nothing white/grey can show at the edges (e.g. under the bottom bar) while loading. */
+  html{background:#15181c;min-height:100%}
+  /* No scrollbars flashing on the right / bottom edge while the page is starting (touch screens only). */
+  @media (pointer:coarse){
+    html,body{scrollbar-width:none;-ms-overflow-style:none}
+    html::-webkit-scrollbar,body::-webkit-scrollbar{display:none;width:0;height:0}
+  }
+  /* While the splash screen is showing (body.locked) the page itself must not be scrollable at all. */
+  html:has(body.locked){overflow:hidden}
+  html.vp-wait{visibility:hidden}
+  @media (prefers-color-scheme: light){html{background:#f2f3ef}}
+</style>
 <meta name="theme-color" content="#15181c" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f2f3ef" media="(prefers-color-scheme: light)">
 <title>ODDZA — Professional Football Predictions</title>
 <meta name="description" content="Daily free and VIP football predictions with verified results, live win-rate tracking, and full match history. Trusted tips, updated every day.">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4559206284695714"
-     crossorigin="anonymous"></script>
-
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
@@ -57,7 +72,8 @@ window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();win
   })();
 </script>
 <style>
-  html,body { touch-action: manipulation; }
+  html,body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  button, a, [role=button], .icon-btn { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
   html.is-webview #authModal #googleSignInBtn,
   html.is-webview #authModal .auth-divider { display: none !important; }
   .webview-hint { display: none; margin: 10px 0 0; font-size: 12.5px; line-height: 1.45; opacity: .75; text-align: center; }
@@ -67,13 +83,13 @@ window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();win
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>:root{--font-ui:"Inter",Roboto,"Segoe UI","Helvetica Neue",Arial,sans-serif}body{font-family:var(--font-ui)}</style>
-<link rel="stylesheet" href="styles.css?v=117">
-<link rel="stylesheet" href="checkout.css?v=117">
-<link rel="stylesheet" href="vip.css?v=117">
-<link rel="stylesheet" href="chat.css?v=117">
-<link rel="stylesheet" href="android-ui.css?v=117">
-<link rel="stylesheet" href="responsive.css?v=117">
-<link rel="stylesheet" href="oddza-polish.css?v=117">
+<link rel="stylesheet" href="styles.css?v=125">
+<link rel="stylesheet" href="checkout.css?v=125">
+<link rel="stylesheet" href="vip.css?v=125">
+<link rel="stylesheet" href="chat.css?v=125">
+<link rel="stylesheet" href="android-ui.css?v=125">
+<link rel="stylesheet" href="responsive.css?v=125">
+<link rel="stylesheet" href="oddza-polish.css?v=125">
 
 <script>
   // Load OneSignal AFTER the page has finished loading, so it can never hold the
@@ -1025,9 +1041,9 @@ window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();win
   <button type="button" id="catTabToday" class="cat-tab is-on" onclick="showCatToday()" data-i18n="tab_today">Today</button>
   <button type="button" id="catTabHist" class="cat-tab" onclick="showCatHistory()" data-i18n="tab_history">History</button>
 </nav>
-<script type="module" src="app.js?v=117"></script>
-<script type="module" src="checkout.js?v=117"></script>
-<script type="module" src="chat.js?v=117"></script>
-<script src="android-ui.js?v=117" defer></script>
+<script type="module" src="app.js?v=125"></script>
+<script type="module" src="checkout.js?v=125"></script>
+<script type="module" src="chat.js?v=125"></script>
+<script src="android-ui.js?v=125" defer></script>
 </body>
 </html>

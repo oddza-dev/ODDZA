@@ -18,7 +18,7 @@
    - OneSignal push keeps using its own worker in /onesignal/ (untouched).
    ========================================================================== */
 
-const VERSION = "117";
+const VERSION = "125";
 const PREFIX = "oddza-";
 const STATIC_CACHE = `${PREFIX}static-${VERSION}`;
 const RUNTIME_CACHE = `${PREFIX}runtime`;
